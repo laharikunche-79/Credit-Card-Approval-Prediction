@@ -61,13 +61,24 @@ def load_data():
 def build_target(credit_df):
     """
     Engineer binary target from monthly payment STATUS history.
-    STATUS '2'-'5' (60+ days past due at any point) → TARGET=0 (rejected).
-    All others ('0','1','C','X') → TARGET=1 (approved).
+
+    Bad applicant (TARGET=0): ever had STATUS '1'-'5' (30+ days past due).
+    Good applicant (TARGET=1): only 'C' (paid off) or '0' (≤29 days) — clean history.
+    Applicants with only 'X' (no loan ever) are excluded — no credit history to judge.
+
+    Using '1'-'5' as bad gives a realistic class balance and matches real bank criteria
+    (most banks reject applicants with any 30+ day late payment in their credit history).
     """
-    bad_statuses = {'2', '3', '4', '5'}
+    bad_statuses  = {'1', '2', '3', '4', '5'}
+    good_statuses = {'C', '0'}
 
     def applicant_label(statuses):
-        return 0 if any(str(s) in bad_statuses for s in statuses) else 1
+        statuses_str = set(str(s) for s in statuses)
+        if statuses_str.issubset({'X'}):
+            return -1  # No loan history — exclude
+        if any(s in bad_statuses for s in statuses_str):
+            return 0   # Rejected
+        return 1       # Approved
 
     target = (
         credit_df.groupby('ID')['STATUS']
@@ -75,8 +86,12 @@ def build_target(credit_df):
         .reset_index()
         .rename(columns={'STATUS': 'TARGET'})
     )
+    # Drop applicants with no loan history
+    target = target[target['TARGET'] != -1].copy()
+
     print(f"\nTarget distribution:\n{target['TARGET'].value_counts().to_string()}")
-    print(f"  Approval rate: {target['TARGET'].mean()*100:.1f}%")
+    print(f"  Approval rate : {target['TARGET'].mean()*100:.1f}%")
+    print(f"  Rejection rate: {(1-target['TARGET'].mean())*100:.1f}%")
     return target
 
 
@@ -120,13 +135,23 @@ def preprocess(df):
 
 
 def train_all_models(X_train, X_test, y_train, y_test):
+    # Scale positive weight for XGBoost to handle class imbalance
+    neg = (y_train == 0).sum()
+    pos = (y_train == 1).sum()
+    spw = round(neg / pos, 2)   # scale_pos_weight = minority/majority (inverted for XGB)
+    spw_xgb = round(pos / neg, 2)  # XGB: weight of positive class relative to negative
+
     models = {
-        'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42),
-        'Decision Tree':       DecisionTreeClassifier(max_depth=8, random_state=42),
+        'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42,
+                                                   class_weight='balanced'),
+        'Decision Tree':       DecisionTreeClassifier(max_depth=8, random_state=42,
+                                                      class_weight='balanced'),
         'Random Forest':       RandomForestClassifier(n_estimators=100, max_depth=10,
-                                                      random_state=42, n_jobs=-1),
+                                                      random_state=42, n_jobs=-1,
+                                                      class_weight='balanced'),
         'XGBoost':             XGBClassifier(n_estimators=100, max_depth=6,
                                              learning_rate=0.1, eval_metric='logloss',
+                                             scale_pos_weight=spw,
                                              random_state=42, n_jobs=-1, verbosity=0),
     }
 
