@@ -178,11 +178,10 @@ Complete project documentation is available in the [`docs/`](docs/) folder, orga
 | [1. Brainstorming & Ideation](docs/1.%20Brainstorming%20%26%20Ideation/) | Idea Prioritization, Problem Statements, Empathy Map |
 | [2. Requirement Analysis](docs/2.%20Requirement%20Analysis/) | Customer Journey Map, DFD, Requirements, Tech Stack |
 | [3. Project Design](docs/3.%20Project%20Design%20Phase/) | Problem-Solution Fit, Proposed Solution, Architecture |
-| [4. Project Planning](docs/4.%20Project%20Planning%20Phase/) | Sprint Backlog |
-| [5. Project Development](docs/5.%20Project%20Development%20Phase/) | Code Quality, Solution Summary, Features |
-| [6. Project Testing](docs/6.%20Project%20Testing/) | Performance Testing |
-| [7. Project Documentation](docs/7.%20Project%20Documentation/) | Executable Files, Full Documentation |
-| [8. Project Demonstration](docs/8.%20Project%20Demonstration/) | Demo Plan, Scalability, Team Roles |
+| [4. Project Development](docs/5.%20Project%20Development%20Phase/) | Code Quality, Solution Summary, Features |
+| [5. Project Testing](docs/6.%20Project%20Testing/) | Performance Testing |
+| [6. Project Documentation](docs/7.%20Project%20Documentation/) | Executable Files, Full Documentation |
+| [7. Project Demonstration](docs/8.%20Project%20Demonstration/) | Demo Plan, Scalability, Team Roles |
 
 ---
 
