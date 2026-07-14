@@ -1,7 +1,7 @@
 # Empathy Map
 
 **Project:** Credit Card Approval Prediction
-**Persona:** Riya, 28-year-old salaried software engineer applying for her first credit card
+**Persona:** Riya, 28-year-old salaried software engineer applying for her first credit card.
 
 ---
 
