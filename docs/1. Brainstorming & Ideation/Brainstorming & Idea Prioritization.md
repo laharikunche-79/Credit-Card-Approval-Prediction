@@ -5,19 +5,8 @@
 
 ---
 
-## Step 1 — Team Brainstorming Session
 
-| S.No | Team Member | Idea / Suggestion | Category | Group No. |
-|---|---|---|---|---|
-| 1 | Karthik Ganti | Predict credit card approval using applicant financial history | ML Classification | Group 1 |
-| 2 | Joy Kumar Roy | Build a crop recommendation system using soil and weather data | ML Classification | Group 2 |
-| 3 | Nandini Priya Masina | Develop a loan eligibility predictor for home loans | ML Classification | Group 1 |
-| 4 | Kunisetti Uma Nandeswari | Create a fraud detection system for online transactions | ML Anomaly Detection | Group 3 |
-| 5 | Kantipudi Vivek Vardhan | Build a stock price prediction tool using historical data | ML Regression | Group 4 |
-
----
-
-## Step 2 — Idea Prioritization Matrix
+## Step 1— Idea Prioritization Matrix
 
 | Group No. | Final Idea | Feasibility (H/M/L) | Importance (H/M/L) | Priority | Selected |
 |---|---|---|---|---|---|
